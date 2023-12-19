@@ -1,4 +1,4 @@
-import { IocContainer } from "./ioc-container";
+import { IocContainer, Register } from "./ioc-container";
 
 interface IDepA {
   doA(): void;
@@ -12,12 +12,14 @@ interface IDepC {
   doC(): void;
 }
 
+@Register("IDepA", [])
 class ConcreteA implements IDepA {
   doA(): void {
     console.log("Doing A");
   }
 }
 
+@Register("IDepB", [])
 class ConcreteB implements IDepB {
   doB(): void {
     console.log("Doing B");
@@ -35,8 +37,8 @@ class ConcreteC implements IDepC {
 }
 
 let container = IocContainer.instance;
-container.register("IDepA", [], ConcreteA);
-container.register("IDepB", [], ConcreteB);
+// container.register("IDepA", [], ConcreteA);
+// container.register("IDepB", [], ConcreteB);
 container.register("IDepC", ["IDepA", "IDepB"], ConcreteC);
 
 let a = container.resolve<IDepA>("IDepA");
